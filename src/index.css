@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Cairo", sans-serif;
+  background-color: #faf8f5;
+}

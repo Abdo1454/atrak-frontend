@@ -8,6 +8,7 @@ import NewArrivals from '../../components/home/NewArrivals';
 import SpecialOffers from '../../components/home/SpecialOffers';
 import LuxuryCollections from '../../components/home/LuxuryCollections';
 import Statistics from '../../components/home/Statistics';
+import Newsletter from '../../components/home/Newsletter';
 function Home() {
   return (
     <div>
@@ -18,6 +19,7 @@ function Home() {
         <SpecialOffers />
         <LuxuryCollections />
         <Statistics />
+        <Newsletter />
     </div>
   )
 }

@@ -7,6 +7,7 @@ import BestSellers from '../../components/home/BestSellers';
 import NewArrivals from '../../components/home/NewArrivals';
 import SpecialOffers from '../../components/home/SpecialOffers';
 import LuxuryCollections from '../../components/home/LuxuryCollections';
+import Statistics from '../../components/home/Statistics';
 function Home() {
   return (
     <div>
@@ -16,6 +17,7 @@ function Home() {
         <NewArrivals />
         <SpecialOffers />
         <LuxuryCollections />
+        <Statistics />
     </div>
   )
 }

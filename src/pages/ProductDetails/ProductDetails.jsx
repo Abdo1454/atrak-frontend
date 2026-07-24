@@ -1,7 +1,7 @@
 import ProductGallery from "../../components/productDetails/ProductGallery";
 import ProductInfo from "../../components/productDetails/ProductInfo";
 import ProductTabs from "../../components/productDetails/ProductTabs";
-// import RelatedProducts from "../../components/productDetails/RelatedProducts";
+import RelatedProducts from "../../components/productDetails/RelatedProducts";
 import { useParams } from "react-router-dom";
 import { products } from "../../data/products";
 function ProductDetails() {
@@ -26,7 +26,10 @@ const product = products.find(
 
         {/* Related Products */}
         <div className="mt-20">
-          {/* <RelatedProducts /> */}
+         <RelatedProducts
+  currentProductId={product.id}
+  category={product.category}
+/>
         </div>
       </div>
     </section>

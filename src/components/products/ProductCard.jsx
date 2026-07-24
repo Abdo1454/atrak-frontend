@@ -1,5 +1,5 @@
 import { Star, ShoppingCart, Eye } from "lucide-react";
-
+import { Link } from "react-router-dom";
 function ProductCard({ product }) {
   return (
     <div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -54,9 +54,12 @@ function ProductCard({ product }) {
             أضف للسلة
           </button>
 
-          <button className="rounded-xl border border-violet-600 p-3 text-violet-600 transition hover:bg-violet-600 hover:text-white">
-            <Eye size={18} />
-          </button>
+        <Link
+  to={`/products/${product.id}`}
+  className="rounded-xl border border-violet-600 p-3 text-violet-600 transition hover:bg-violet-600 hover:text-white"
+>
+  <Eye size={18} />
+</Link>
         </div>
       </div>
     </div>

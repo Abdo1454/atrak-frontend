@@ -7,7 +7,7 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Checkout/Checkout";
 import Success from "../pages/Success/Success";
-import About from   "../pages/About/About";
+import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 
 function AppRoutes() {
@@ -29,7 +29,8 @@ function AppRoutes() {
 
         <Route path="/about" element={<About />} />
 
-             <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<Contact />} />
+
 
       </Route>
     </Routes>

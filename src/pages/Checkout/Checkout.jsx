@@ -4,6 +4,7 @@ import ShippingForm from "../../components/checkout/ShippingForm";
 import ShippingMethod from "../../components/checkout/ShippingMethod";
 import PaymentMethod from "../../components/checkout/PaymentMethod"
 import OrderReview from "../../components/checkout/OrderReview";
+import OrderSummary from "../../components/checkout/OrderSummary";
 
 
 const Checkout = () => {
@@ -17,6 +18,7 @@ const Checkout = () => {
         <ShippingMethod />
         <PaymentMethod />
         <OrderReview />
+        <OrderSummary />
       </div>
     </main>
   );

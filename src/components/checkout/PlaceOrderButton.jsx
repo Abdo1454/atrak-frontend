@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router-dom";
+
 const PlaceOrderButton = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = () => {
-    console.log("Order placed");
+    navigate("/success");
   };
 
   return (

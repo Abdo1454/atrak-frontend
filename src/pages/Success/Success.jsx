@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import SuccessHeader from "../../components/success/SuccessHeader";
 import OrderDetails from "../../components/success/OrderDetails";
 
@@ -11,13 +13,24 @@ const Success = () => {
 
         <OrderDetails />
 
-        <div className="mt-8 text-center">
-          <a
-            href="/products"
-            className="inline-block rounded-xl bg-purple-700 px-8 py-3 font-semibold text-white transition hover:bg-purple-800"
+
+        <div className="mt-8 flex justify-center gap-4">
+
+          <Link
+            to="/products"
+            className="rounded-xl bg-purple-700 px-8 py-3 font-semibold text-white transition hover:bg-purple-800"
           >
             العودة للتسوق
-          </a>
+          </Link>
+
+
+          <Link
+            to="/"
+            className="rounded-xl border border-gray-300 px-8 py-3 font-semibold text-gray-700 transition hover:bg-gray-100"
+          >
+            الصفحة الرئيسية
+          </Link>
+
         </div>
 
       </div>

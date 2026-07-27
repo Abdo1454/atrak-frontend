@@ -1,7 +1,7 @@
 import HeroSection from "../../components/contact/HeroSection";
 import ContactInfo from "../../components/contact/ContactInfo";
 import ContactForm from "../../components/contact/ContactForm";
-// import BusinessHours from "../../components/contact/BusinessHours";
+import BusinessHours from "../../components/contact/BusinessHours";
 // import SocialLinks from "../../components/contact/SocialLinks";
 // import MapSection from "../../components/contact/MapSection";
 // import FAQPreview from "../../components/contact/FAQPreview";
@@ -16,7 +16,7 @@ function Contact() {
 
         <div className="grid gap-10 lg:grid-cols-2">
           <ContactForm />
-          {/* <BusinessHours /> */}
+          <BusinessHours />
         </div>
 
         {/* <SocialLinks />

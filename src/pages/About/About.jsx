@@ -1,7 +1,7 @@
 import HeroSection from "../../components/about/HeroSection";
 import CompanyStory from "../../components/about/CompanyStory";
 import MissionVision from "../../components/about/MissionVision";
-// import BrandValues from "../../components/about/BrandValues";
+import BrandValues from "../../components/about/BrandValues";
 // import WhyChooseUs from "../../components/about/WhyChooseUs";
 // import TeamSection from "../../components/about/TeamSection";
 // import Statistics from "../../components/about/Statistics";
@@ -15,11 +15,8 @@ function About() {
 
         <CompanyStory />
         <MissionVision />
-        {/*
-
-
         <BrandValues />
-
+        {/*
         <WhyChooseUs />
 
         <Statistics />

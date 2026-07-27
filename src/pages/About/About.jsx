@@ -4,7 +4,7 @@ import MissionVision from "../../components/about/MissionVision";
 import BrandValues from "../../components/about/BrandValues";
 import WhyChooseUs from "../../components/about/WhyChooseUs";
 // import TeamSection from "../../components/about/TeamSection";
-// import Statistics from "../../components/about/Statistics";
+import Statistics from "../../components/about/Statistics";
 // import CallToAction from "../../components/about/CallToAction";
 
 function About() {
@@ -17,9 +17,9 @@ function About() {
         <MissionVision />
         <BrandValues />
         <WhyChooseUs />
+        <Statistics />
         {/*
 
-        <Statistics />
 
         <TeamSection />
 

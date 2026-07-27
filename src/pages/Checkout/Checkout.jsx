@@ -6,6 +6,7 @@ import PaymentMethod from "../../components/checkout/PaymentMethod"
 import OrderReview from "../../components/checkout/OrderReview";
 import OrderSummary from "../../components/checkout/OrderSummary";
 import PlaceOrderButton from "../../components/checkout/PlaceOrderButton";
+import OrderNotes from "../../components/checkout/OrderNotes";
 
 
 const Checkout = () => {
@@ -22,6 +23,7 @@ const Checkout = () => {
         <OrderSummary />
         <div className="mt-6">
   <PlaceOrderButton />
+<OrderNotes />
 </div>
       </div>
     </main>

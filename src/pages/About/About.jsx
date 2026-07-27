@@ -5,7 +5,7 @@ import BrandValues from "../../components/about/BrandValues";
 import WhyChooseUs from "../../components/about/WhyChooseUs";
 // import TeamSection from "../../components/about/TeamSection";
 import Statistics from "../../components/about/Statistics";
-// import CallToAction from "../../components/about/CallToAction";
+import CallToAction from "../../components/about/CallToAction";
 
 function About() {
   return (
@@ -18,12 +18,10 @@ function About() {
         <BrandValues />
         <WhyChooseUs />
         <Statistics />
+        <CallToAction /> 
         {/*
-
-
         <TeamSection />
-
-        <CallToAction /> */}
+        */}
       </div>
     </main>
   );

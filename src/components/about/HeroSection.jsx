@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+// import {heroAbout} from "../../../public/images/about/about-hero.jpg";
 function HeroSection() {
   return (
     <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-950 via-purple-900 to-black px-6 py-20 text-white shadow-2xl md:px-16">
@@ -44,11 +44,11 @@ function HeroSection() {
 
         {/* Image */}
         <div className="flex justify-center">
-          <img
-            src="/images/about/about-hero.png"
-            alt="Luxury Perfume"
-            className="w-full max-w-md drop-shadow-2xl"
-          />
+       <img
+  src="/images/about/about-hero.jpg"
+  alt="Luxury Perfume"
+  className="w-full max-w-md drop-shadow-2xl"
+/>
         </div>
       </div>
     </section>

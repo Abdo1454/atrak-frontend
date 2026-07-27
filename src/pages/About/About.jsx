@@ -1,5 +1,5 @@
 import HeroSection from "../../components/about/HeroSection";
-// import CompanyStory from "../../components/about/CompanyStory";
+import CompanyStory from "../../components/about/CompanyStory";
 // import MissionVision from "../../components/about/MissionVision";
 // import BrandValues from "../../components/about/BrandValues";
 // import WhyChooseUs from "../../components/about/WhyChooseUs";
@@ -13,7 +13,8 @@ function About() {
       <div className="container mx-auto space-y-24 px-4 py-12">
         <HeroSection />
 
-        {/* <CompanyStory />
+        <CompanyStory />
+        {/*
 
         <MissionVision />
 

@@ -3,7 +3,7 @@ import ContactInfo from "../../components/contact/ContactInfo";
 import ContactForm from "../../components/contact/ContactForm";
 import BusinessHours from "../../components/contact/BusinessHours";
 // import SocialLinks from "../../components/contact/SocialLinks";
-// import MapSection from "../../components/contact/MapSection";
+import MapSection from "../../components/contact/MapSection";
 // import FAQPreview from "../../components/contact/FAQPreview";
 
 function Contact() {
@@ -19,11 +19,11 @@ function Contact() {
           <BusinessHours />
         </div>
 
-        {/* <SocialLinks />
+        {/* <SocialLinks /> */}
 
         <MapSection />
 
-        <FAQPreview /> */}
+        {/* <FAQPreview /> */}
       </div>
     </main>
   );

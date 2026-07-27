@@ -1,6 +1,7 @@
 import HeroSection from "../../components/builder/HeroSection";
 import ScentSelection from "../../components/builder/ScentSelection";
 import NotesSelection from "../../components/builder/NotesSelection";
+import BottleCustomization from "../../components/builder/BottleCustomization";
 
 function Builder() {
   return (
@@ -8,6 +9,7 @@ function Builder() {
       <HeroSection />
       <ScentSelection />
           <NotesSelection />
+          <BottleCustomization />
     </main>
   );
 }

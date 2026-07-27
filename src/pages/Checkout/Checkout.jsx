@@ -1,7 +1,9 @@
 import BillingAddress from "../../components/checkout/BillingAddress";
 import CheckoutHeader from "../../components/checkout/CheckoutHeader";
 import ShippingForm from "../../components/checkout/ShippingForm";
-import PaymentMethod from "../../components/checkout/PaymentMethod"
+import ShippingMethod from "../../components/checkout/ShippingMethod";
+
+// import PaymentMethod from "../../components/checkout/PaymentMethod"
 
 
 const Checkout = () => {
@@ -12,7 +14,7 @@ const Checkout = () => {
         <CheckoutHeader />
         <ShippingForm />
         <BillingAddress />
-        <PaymentMethod />
+        <ShippingMethod />
       </div>
     </main>
   );

@@ -3,26 +3,30 @@ import CartItem from "../../components/cart/CartItem";
 import CartSummary from "../../components/cart/CartSummary";
 import EmptyCart from "../../components/cart/EmptyCart";
 import CouponForm from "../../components/cart/CouponForm";
+import GiftWrap from "../../components/cart/GiftWrap";
+import RecommendedProducts from "../../components/cart/RecommendedProducts";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
-      name: "Atrak Black",
-      category: "Men",
+      name: "عطرك بلاك",
+      category: "رجالي",
       price: 95,
       quantity: 1,
       image: "/images/products/product1.png",
     },
     {
       id: 2,
-      name: "Royal Oud",
-      category: "Unisex",
+      name: "رويال عود",
+      category: "للجنسين",
       price: 120,
       quantity: 2,
       image: "/images/products/product2.png",
     },
   ]);
+
+  const [giftWrap, setGiftWrap] = useState(false);
 
   const increaseQuantity = (id) => {
     setCartItems((prev) =>
@@ -55,14 +59,14 @@ function Cart() {
   }
 
   return (
-    <section className="bg-gray-50 py-12">
+    <section dir="rtl" className="bg-gray-50 py-12">
       <div className="container mx-auto px-4">
-        <h1 className="mb-10 text-4xl font-bold">
-          Shopping Cart
+        <h1 className="mb-10 text-right text-4xl font-bold">
+          سلة التسوق
         </h1>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-          {/* Cart Items */}
+          {/* المنتجات */}
           <div className="space-y-6 lg:col-span-2">
             {cartItems.map((item) => (
               <CartItem
@@ -75,11 +79,25 @@ function Cart() {
             ))}
           </div>
 
-          {/* Cart Summary & Coupon */}
-          <div className="space-y-6">
-            <CartSummary cartItems={cartItems} />
+          {/* الشريط الجانبي */}
+          <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+            <CartSummary
+              cartItems={cartItems}
+              giftWrap={giftWrap}
+            />
+
             <CouponForm />
+
+            <GiftWrap
+              enabled={giftWrap}
+              onToggle={() => setGiftWrap(!giftWrap)}
+            />
           </div>
+        </div>
+
+        {/* المنتجات المقترحة */}
+        <div className="mt-20">
+          <RecommendedProducts />
         </div>
       </div>
     </section>

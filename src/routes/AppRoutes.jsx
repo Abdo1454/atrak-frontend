@@ -9,6 +9,7 @@ import Checkout from "../pages/Checkout/Checkout";
 import Success from "../pages/Success/Success";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import Builder from "../pages/Builder/Builder";
 
 function AppRoutes() {
   return (
@@ -31,6 +32,7 @@ function AppRoutes() {
 
         <Route path="/contact" element={<Contact />} />
 
+        <Route path="/builder" element={<Builder />} />
 
       </Route>
     </Routes>

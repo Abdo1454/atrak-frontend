@@ -2,6 +2,7 @@ import { useState } from "react";
 import CartItem from "../../components/cart/CartItem";
 import CartSummary from "../../components/cart/CartSummary";
 import EmptyCart from "../../components/cart/EmptyCart";
+import CouponForm from "../../components/cart/CouponForm";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([
@@ -74,9 +75,10 @@ function Cart() {
             ))}
           </div>
 
-          {/* Cart Summary */}
-          <div>
+          {/* Cart Summary & Coupon */}
+          <div className="space-y-6">
             <CartSummary cartItems={cartItems} />
+            <CouponForm />
           </div>
         </div>
       </div>

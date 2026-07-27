@@ -4,7 +4,7 @@ import ContactForm from "../../components/contact/ContactForm";
 import BusinessHours from "../../components/contact/BusinessHours";
 import SocialLinks from "../../components/contact/SocialLinks";
 import MapSection from "../../components/contact/MapSection";
-// import FAQPreview from "../../components/contact/FAQPreview";
+import FAQPreview from "../../components/contact/FAQPreview";
 
 function Contact() {
   return (
@@ -23,7 +23,7 @@ function Contact() {
 
         <MapSection />
 
-        {/* <FAQPreview /> */}
+        <FAQPreview />
       </div>
     </main>
   );

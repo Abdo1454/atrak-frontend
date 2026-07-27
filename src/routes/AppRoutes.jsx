@@ -6,6 +6,7 @@ import Products from "../pages/Products/Products";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Checkout/Checkout";
+import Success from "../pages/Success/Success";
 
 function AppRoutes() {
   return (
@@ -21,6 +22,8 @@ function AppRoutes() {
         <Route path="/cart" element={<Cart />} />
 
         <Route path="/checkout" element={<Checkout />} />
+
+        <Route path="/success" element={<Success />} />
 
       </Route>
     </Routes>

@@ -1,37 +1,27 @@
 const notes = [
-  {
-    id: 1,
-    name: "الفانيليا",
-    description: "رائحة دافئة وحلوة تمنح العطر لمسة ناعمة.",
-  },
-  {
-    id: 2,
-    name: "العود",
-    description: "رائحة شرقية فاخرة وعميقة.",
-  },
-  {
-    id: 3,
-    name: "الورد",
-    description: "لمسة زهرية أنيقة ومنعشة.",
-  },
-  {
-    id: 4,
-    name: "المسك",
-    description: "ثبات عالي ورائحة ناعمة وجذابة.",
-  },
-  {
-    id: 5,
-    name: "الحمضيات",
-    description: "انتعاش وحيوية تدوم طوال اليوم.",
-  },
-  {
-    id: 6,
-    name: "العنبر",
-    description: "دفء وغموض يضيفان عمقًا للعطر.",
-  },
+  { id: 1, name: "عود" },
+  { id: 2, name: "فانيليا" },
+  { id: 3, name: "مسك" },
+  { id: 4, name: "ورد" },
+  { id: 5, name: "ياسمين" },
+  { id: 6, name: "حمضيات" },
+  { id: 7, name: "عنبر" },
+  { id: 8, name: "لافندر" },
 ];
 
-function NotesSelection() {
+function NotesSelection({ selectedNotes, setSelectedNotes }) {
+  const toggleNote = (note) => {
+    const exists = selectedNotes.some((item) => item.id === note.id);
+
+    if (exists) {
+      setSelectedNotes(
+        selectedNotes.filter((item) => item.id !== note.id)
+      );
+    } else {
+      setSelectedNotes([...selectedNotes, note]);
+    }
+  };
+
   return (
     <section className="py-16">
       <div className="mb-10 text-center">
@@ -40,29 +30,34 @@ function NotesSelection() {
         </span>
 
         <h2 className="mt-4 text-4xl font-bold text-gray-900">
-          اختر النوتات العطرية
+          اختر النوتات
         </h2>
 
         <p className="mt-3 text-gray-600">
-          يمكنك اختيار النوتات التي ترغب في إضافتها إلى عطرك.
+          يمكنك اختيار أكثر من نوتة لتكوين عطرك.
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {notes.map((note) => (
-          <div
-            key={note.id}
-            className="cursor-pointer rounded-3xl border border-gray-200 bg-white p-6 shadow-md transition hover:-translate-y-2 hover:border-purple-600 hover:shadow-xl"
-          >
-            <h3 className="text-2xl font-bold text-gray-900">
-              {note.name}
-            </h3>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {notes.map((note) => {
+          const selected = selectedNotes.some(
+            (item) => item.id === note.id
+          );
 
-            <p className="mt-3 leading-7 text-gray-600">
-              {note.description}
-            </p>
-          </div>
-        ))}
+          return (
+            <button
+              key={note.id}
+              onClick={() => toggleNote(note)}
+              className={`rounded-2xl border p-6 text-center font-semibold transition-all duration-300 ${
+                selected
+                  ? "border-purple-700 bg-purple-700 text-white shadow-lg"
+                  : "border-gray-200 bg-white hover:border-purple-700 hover:text-purple-700"
+              }`}
+            >
+              {note.name}
+            </button>
+          );
+        })}
       </div>
     </section>
   );

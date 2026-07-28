@@ -21,7 +21,7 @@ const scents = [
   },
 ];
 
-function ScentSelection() {
+function ScentSelection({ selectedScent, setSelectedScent }) {
   return (
     <section className="py-16">
       <div className="mb-10 text-center">
@@ -40,18 +40,27 @@ function ScentSelection() {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {scents.map((scent) => (
-          <div
+          <button
             key={scent.id}
-            className="cursor-pointer rounded-3xl bg-white p-6 text-center shadow-lg transition hover:-translate-y-2 hover:shadow-xl"
+            onClick={() => setSelectedScent(scent)}
+            className={`rounded-3xl p-6 text-center shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-xl ${
+              selectedScent?.id === scent.id
+                ? "border-2 border-purple-700 bg-purple-700 text-white"
+                : "bg-white text-gray-900"
+            }`}
           >
-            <h3 className="text-2xl font-bold text-gray-900">
-              {scent.name}
-            </h3>
+            <h3 className="text-2xl font-bold">{scent.name}</h3>
 
-            <p className="mt-3 leading-7 text-gray-600">
+            <p
+              className={`mt-3 leading-7 ${
+                selectedScent?.id === scent.id
+                  ? "text-purple-100"
+                  : "text-gray-600"
+              }`}
+            >
               {scent.description}
             </p>
-          </div>
+          </button>
         ))}
       </div>
     </section>

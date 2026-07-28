@@ -58,9 +58,9 @@ function PerfumePreview({
                 نوع العطر
               </span>
 
-              <span className="font-bold text-purple-700">
-                {perfumeType}
-              </span>
+   <span className="font-bold text-purple-700">
+  {perfumeType?.name || "لم يتم الاختيار"}
+</span>
             </div>
 
             <div className="flex justify-between rounded-xl bg-gray-50 p-4">
@@ -68,11 +68,11 @@ function PerfumePreview({
                 النوتات
               </span>
 
-              <span className="font-bold text-purple-700">
-                {notes.length > 0
-                  ? notes.join(" - ")
-                  : "لم يتم اختيار نوتات"}
-              </span>
+          <span className="font-bold text-purple-700">
+  {notes.length > 0
+    ? notes.map((note) => note.name).join(" - ")
+    : "لم يتم اختيار نوتات"}
+</span>
             </div>
 
             <div className="flex justify-between rounded-xl bg-gray-50 p-4">

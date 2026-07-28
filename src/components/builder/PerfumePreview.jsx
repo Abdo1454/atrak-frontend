@@ -1,4 +1,11 @@
-function PerfumePreview() {
+function PerfumePreview({
+  perfumeType = "شرقي",
+  notes = [],
+  size = { size: "100ml" },
+  bottleColor = { name: "بنفسجي" },
+  capColor = { name: "ذهبي" },
+  price = 799,
+}) {
   return (
     <section className="py-16">
       <div className="mb-10 text-center">
@@ -11,25 +18,35 @@ function PerfumePreview() {
         </h2>
 
         <p className="mt-3 text-gray-600">
-          هذه معاينة أولية لشكل عطرك قبل إضافته إلى السلة.
+          راجع جميع اختياراتك قبل إضافة العطر إلى السلة.
         </p>
       </div>
 
       <div className="grid items-center gap-12 rounded-3xl bg-white p-10 shadow-lg lg:grid-cols-2">
         {/* Bottle Preview */}
         <div className="flex justify-center">
-          <div className="relative">
-            <div className="mx-auto h-24 w-16 rounded-t-xl bg-yellow-500" />
+          <div className="relative flex flex-col items-center">
+            {/* Cap */}
+            <div
+              className={`h-16 w-12 rounded-t-xl ${capColor?.color || "bg-yellow-500"}`}
+            />
 
-            <div className="mx-auto h-64 w-44 rounded-b-[40px] rounded-t-[30px] border border-gray-200 bg-purple-100 shadow-xl" />
+            {/* Bottle */}
+            <div
+              className={`${
+                size?.height || "h-64"
+              } w-44 rounded-b-[40px] rounded-t-[30px] border border-gray-200 ${
+                bottleColor?.color || "bg-purple-200"
+              } shadow-xl transition-all duration-300`}
+            />
 
-            <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-lg font-bold text-purple-800">
+            <p className="absolute bottom-8 text-lg font-bold text-purple-900">
               Atrak
             </p>
           </div>
         </div>
 
-        {/* Preview Details */}
+        {/* Details */}
         <div>
           <h3 className="text-3xl font-bold text-gray-900">
             تفاصيل العطر
@@ -42,7 +59,7 @@ function PerfumePreview() {
               </span>
 
               <span className="font-bold text-purple-700">
-                شرقي
+                {perfumeType}
               </span>
             </div>
 
@@ -52,7 +69,9 @@ function PerfumePreview() {
               </span>
 
               <span className="font-bold text-purple-700">
-                عود - فانيليا
+                {notes.length > 0
+                  ? notes.join(" - ")
+                  : "لم يتم اختيار نوتات"}
               </span>
             </div>
 
@@ -62,17 +81,37 @@ function PerfumePreview() {
               </span>
 
               <span className="font-bold text-purple-700">
-                100ml
+                {size?.size}
               </span>
             </div>
 
             <div className="flex justify-between rounded-xl bg-gray-50 p-4">
               <span className="font-medium text-gray-600">
-                السعر المتوقع
+                لون الزجاجة
               </span>
 
               <span className="font-bold text-purple-700">
-                799 EGP
+                {bottleColor?.name}
+              </span>
+            </div>
+
+            <div className="flex justify-between rounded-xl bg-gray-50 p-4">
+              <span className="font-medium text-gray-600">
+                لون الغطاء
+              </span>
+
+              <span className="font-bold text-purple-700">
+                {capColor?.name}
+              </span>
+            </div>
+
+            <div className="flex justify-between rounded-xl bg-purple-50 p-4">
+              <span className="text-lg font-bold text-gray-900">
+                السعر المتوقع
+              </span>
+
+              <span className="text-xl font-bold text-purple-700">
+                {price} EGP
               </span>
             </div>
           </div>

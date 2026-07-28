@@ -1,11 +1,14 @@
+import { useState } from "react";
+import PerfumePreview from "./PerfumePreview";
+
 const bottleSizes = [
-  { id: 1, size: "30ml" },
-  { id: 2, size: "50ml" },
-  { id: 3, size: "100ml" },
+  { id: 1, size: "30ml", height: "h-40" },
+  { id: 2, size: "50ml", height: "h-52" },
+  { id: 3, size: "100ml", height: "h-64" },
 ];
 
 const bottleColors = [
-  { id: 1, name: "شفاف", color: "bg-white border" },
+  { id: 1, name: "شفاف", color: "bg-white border-2 border-gray-300" },
   { id: 2, name: "أسود", color: "bg-black" },
   { id: 3, name: "ذهبي", color: "bg-yellow-400" },
   { id: 4, name: "بنفسجي", color: "bg-purple-700" },
@@ -17,92 +20,194 @@ const capColors = [
   { id: 3, name: "أسود", color: "bg-black" },
 ];
 
-function BottleCustomization() {
+export default function BottleCustomization() {
+  const [selectedSize, setSelectedSize] = useState(bottleSizes[1]);
+  const [selectedBottleColor, setSelectedBottleColor] = useState(
+    bottleColors[3]
+  );
+  const [selectedCapColor, setSelectedCapColor] = useState(capColors[0]);
+
   return (
-    <section className="py-16">
-      <div className="mb-10 text-center">
-        <span className="rounded-full bg-purple-100 px-4 py-2 text-sm font-semibold text-purple-700">
-          الخطوة الثالثة
-        </span>
+<div className="mx-auto flex w-full max-w-7xl flex-col-reverse gap-10 rounded-3xl bg-white p-10 shadow-lg lg:flex-row-reverse lg:items-center">
+  {/* Options */}
+  <div className="flex flex-1 justify-end">
+ <div className="w-full max-w-xl space-y-8">
 
-        <h2 className="mt-4 text-4xl font-bold text-gray-900">
-          خصّص زجاجة عطرك
-        </h2>
+    
 
-        <p className="mt-3 text-gray-600">
-          اختر الحجم والألوان التي تناسب ذوقك.
-        </p>
-      </div>
+  {/* Bottle Size */}
 
-      <div className="space-y-12 rounded-3xl bg-white p-8 shadow-lg">
-        {/* Bottle Size */}
-        <div>
-          <h3 className="mb-5 text-2xl font-bold text-gray-900">
-            حجم الزجاجة
-          </h3>
+  <div className="rounded-2xl border border-gray-200 p-6 shadow-sm">
 
-          <div className="flex flex-wrap gap-4">
-            {bottleSizes.map((item) => (
-              <button
-                key={item.id}
-                className="rounded-xl border border-gray-300 px-6 py-3 font-medium transition hover:border-purple-700 hover:bg-purple-700 hover:text-white"
-              >
-                {item.size}
-              </button>
-            ))}
-          </div>
-        </div>
+    <h3 className="mb-5 text-xl font-bold text-gray-900">
 
-        {/* Bottle Color */}
-        <div>
-          <h3 className="mb-5 text-2xl font-bold text-gray-900">
-            لون الزجاجة
-          </h3>
+      حجم الزجاجة
 
-          <div className="flex flex-wrap gap-5">
-            {bottleColors.map((item) => (
-              <div
-                key={item.id}
-                className="flex cursor-pointer flex-col items-center gap-3"
-              >
-                <div
-                  className={`h-14 w-14 rounded-full ${item.color}`}
-                />
+    </h3>
 
-                <span className="text-sm font-medium">
-                  {item.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Cap Color */}
-        <div>
-          <h3 className="mb-5 text-2xl font-bold text-gray-900">
-            لون الغطاء
-          </h3>
 
-          <div className="flex flex-wrap gap-5">
-            {capColors.map((item) => (
-              <div
-                key={item.id}
-                className="flex cursor-pointer flex-col items-center gap-3"
-              >
-                <div
-                  className={`h-12 w-12 rounded-full ${item.color}`}
-                />
+    <div className="flex flex-wrap justify-center gap-4">
 
-                <span className="text-sm font-medium">
-                  {item.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+      {bottleSizes.map((item) => (
+
+        <button
+
+          key={item.id}
+
+          onClick={() => setSelectedSize(item)}
+
+          className={`rounded-xl border px-6 py-3 font-medium transition-all duration-300 ${
+
+            selectedSize.id === item.id
+
+              ? "border-purple-700 bg-purple-700 text-white shadow-lg"
+
+              : "border-gray-300 bg-white hover:border-purple-700 hover:text-purple-700"
+
+          }`}
+
+        >
+
+          {item.size}
+
+        </button>
+
+      ))}
+
+    </div>
+
+  </div>
+
+
+
+  {/* Bottle Color */}
+
+  <div className="rounded-2xl border border-gray-200 p-6 shadow-sm">
+
+    <h3 className="mb-5 text-xl font-bold text-gray-900">
+
+      لون الزجاجة
+
+    </h3>
+
+
+
+    <div className="flex flex-wrap justify-center gap-5">
+
+      {bottleColors.map((item) => (
+
+        <button
+
+          key={item.id}
+
+          onClick={() => setSelectedBottleColor(item)}
+
+          className="flex flex-col items-center gap-2"
+
+        >
+
+          <div
+
+            className={`h-14 w-14 rounded-full transition-all duration-300 ${item.color} ${
+
+              selectedBottleColor.id === item.id
+
+                ? "ring-4 ring-purple-500 ring-offset-2"
+
+                : ""
+
+            }`}
+
+          />
+
+
+
+          <span className="text-sm font-medium text-gray-700">
+
+            {item.name}
+
+          </span>
+
+        </button>
+
+      ))}
+
+    </div>
+
+  </div>
+
+
+
+  {/* Cap Color */}
+
+  <div className="rounded-2xl border border-gray-200 p-6 shadow-sm">
+
+    <h3 className="mb-5 text-xl font-bold text-gray-900">
+
+      لون الغطاء
+
+    </h3>
+
+
+
+    <div className="flex flex-wrap justify-center gap-5">
+
+      {capColors.map((item) => (
+
+        <button
+
+          key={item.id}
+
+          onClick={() => setSelectedCapColor(item)}
+
+          className="flex flex-col items-center gap-2"
+
+        >
+
+          <div
+
+            className={`h-12 w-12 rounded-full transition-all duration-300 ${item.color} ${
+
+              selectedCapColor.id === item.id
+
+                ? "ring-4 ring-purple-500 ring-offset-2"
+
+                : ""
+
+            }`}
+
+          />
+
+
+
+          <span className="text-sm font-medium text-gray-700">
+
+            {item.name}
+
+          </span>
+
+        </button>
+
+      ))}
+
+    </div>
+
+  </div>
+
+
+
+    </div>
+  </div>
+
+  {/* Preview */}
+  <div className="flex flex-1 justify-center">
+    <PerfumePreview
+      size={selectedSize}
+      bottleColor={selectedBottleColor}
+      capColor={selectedCapColor}
+    />
+  </div>
+</div>
   );
 }
-
-export default BottleCustomization;

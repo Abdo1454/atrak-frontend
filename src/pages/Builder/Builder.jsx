@@ -2,7 +2,7 @@ import HeroSection from "../../components/builder/HeroSection";
 import ScentSelection from "../../components/builder/ScentSelection";
 import NotesSelection from "../../components/builder/NotesSelection";
 import BottleCustomization from "../../components/builder/BottleCustomization";
-import PerfumePreview from "../../components/builder/PerfumePreview";
+// import PerfumePreview from "../../components/builder/PerfumePreview";
 
 function Builder() {
   return (
@@ -11,7 +11,7 @@ function Builder() {
       <ScentSelection />
           <NotesSelection />
           <BottleCustomization />
-          <PerfumePreview />
+          {/* <PerfumePreview /> */}
     </main>
   );
 }

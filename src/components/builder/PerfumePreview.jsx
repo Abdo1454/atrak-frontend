@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useCart } from "../../context/CartContext";
+import AddToCartModal from "./AddToCartModal";
+
 function PerfumePreview({
   perfumeType = null,
   notes = [],
@@ -12,6 +16,11 @@ function PerfumePreview({
   },
   price = 799,
 }) {
+  const { addToCart } = useCart();
+
+  const [showModal, setShowModal] = useState(false);
+  const [addedPerfume, setAddedPerfume] = useState(null);
+
   const isReady =
     perfumeType &&
     notes.length > 0 &&
@@ -20,18 +29,26 @@ function PerfumePreview({
     capColor;
 
   const handleAddToCart = () => {
-    const perfume = {
-      perfumeType: perfumeType?.name,
+    if (!isReady) return;
+
+    const customPerfume = {
+      id: crypto.randomUUID(),
+      name: "عطر مخصص",
+      perfumeType: perfumeType.name,
       notes: notes.map((note) => note.name),
-      size: size?.size,
-      bottleColor: bottleColor?.name,
-      capColor: capColor?.name,
+      size: size.size,
+      bottleColor: bottleColor.name,
+      capColor: capColor.name,
       price,
+      quantity: 1,
     };
 
-    console.log("Custom Perfume:", perfume);
+    addToCart(customPerfume);
 
-    alert("تمت إضافة العطر إلى السلة بنجاح");
+    setAddedPerfume(customPerfume);
+    setShowModal(true);
+
+    console.log("Custom Perfume:", customPerfume);
   };
 
   return (
@@ -159,6 +176,12 @@ function PerfumePreview({
           </button>
         </div>
       </div>
+
+      <AddToCartModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        perfume={addedPerfume}
+      />
     </section>
   );
 }

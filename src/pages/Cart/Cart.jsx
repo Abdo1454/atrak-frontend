@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCart } from "../../context/CartContext";
+
 import CartItem from "../../components/cart/CartItem";
 import CartSummary from "../../components/cart/CartSummary";
 import EmptyCart from "../../components/cart/EmptyCart";
@@ -7,54 +9,32 @@ import GiftWrap from "../../components/cart/GiftWrap";
 import RecommendedProducts from "../../components/cart/RecommendedProducts";
 
 function Cart() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "عطرك بلاك",
-      category: "رجالي",
-      price: 95,
-      quantity: 1,
-      image: "/images/products/product1.png",
-    },
-    {
-      id: 2,
-      name: "رويال عود",
-      category: "للجنسين",
-      price: 120,
-      quantity: 2,
-      image: "/images/products/product2.png",
-    },
-  ]);
+  const {
+    cart,
+    subtotal,
+    removeFromCart,
+    updateQuantity,
+  } = useCart();
 
   const [giftWrap, setGiftWrap] = useState(false);
 
   const increaseQuantity = (id) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
+    const item = cart.find((item) => item.id === id);
+
+    if (item) {
+      updateQuantity(id, item.quantity + 1);
+    }
   };
 
   const decreaseQuantity = (id) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
+    const item = cart.find((item) => item.id === id);
+
+    if (item && item.quantity > 1) {
+      updateQuantity(id, item.quantity - 1);
+    }
   };
 
-  const removeItem = (id) => {
-    setCartItems((prev) =>
-      prev.filter((item) => item.id !== id)
-    );
-  };
-
-  if (cartItems.length === 0) {
+  if (cart.length === 0) {
     return <EmptyCart />;
   }
 
@@ -68,13 +48,13 @@ function Cart() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
           {/* المنتجات */}
           <div className="space-y-6 lg:col-span-2">
-            {cartItems.map((item) => (
+            {cart.map((item) => (
               <CartItem
                 key={item.id}
                 item={item}
                 onIncrease={increaseQuantity}
                 onDecrease={decreaseQuantity}
-                onRemove={removeItem}
+                onRemove={removeFromCart}
               />
             ))}
           </div>
@@ -82,7 +62,8 @@ function Cart() {
           {/* الشريط الجانبي */}
           <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             <CartSummary
-              cartItems={cartItems}
+              cartItems={cart}
+              subtotal={subtotal}
               giftWrap={giftWrap}
             />
 

@@ -36,6 +36,49 @@ function Builder() {
   const [selectedCapColor, setSelectedCapColor] =
     useState(capColors[0]);
 
+  // Calculate Price
+  const calculatePrice = () => {
+    let total = 0;
+
+    // Bottle Size
+    switch (selectedSize.size) {
+      case "30ml":
+        total += 399;
+        break;
+      case "50ml":
+        total += 599;
+        break;
+      case "100ml":
+        total += 799;
+        break;
+      default:
+        total += 399;
+    }
+
+    // Perfume Type
+    switch (selectedScent?.name) {
+      case "شرقي":
+        total += 150;
+        break;
+      case "خشبي":
+        total += 120;
+        break;
+      case "زهري":
+        total += 80;
+        break;
+      case "منعش":
+        total += 60;
+        break;
+      default:
+        break;
+    }
+
+    // Notes
+    total += selectedNotes.length * 50;
+
+    return total;
+  };
+
   return (
     <main className="bg-gray-50">
       <HeroSection />
@@ -60,6 +103,7 @@ function Builder() {
           setSelectedBottleColor={setSelectedBottleColor}
           selectedCapColor={selectedCapColor}
           setSelectedCapColor={setSelectedCapColor}
+          price={calculatePrice()}
         />
       </div>
     </main>

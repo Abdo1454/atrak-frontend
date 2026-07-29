@@ -1,11 +1,56 @@
+import { useState } from "react";
+import { useCart } from "../../context/CartContext";
+import AddToCartModal from "./AddToCartModal";
+
 function PerfumePreview({
-  perfumeType = "شرقي",
+  perfumeType = null,
   notes = [],
-  size = { size: "100ml" },
-  bottleColor = { name: "بنفسجي" },
-  capColor = { name: "ذهبي" },
+  size = { size: "100ml", height: "h-64" },
+  bottleColor = {
+    name: "بنفسجي",
+    color: "bg-purple-700",
+  },
+  capColor = {
+    name: "ذهبي",
+    color: "bg-yellow-500",
+  },
   price = 799,
 }) {
+  const { addToCart } = useCart();
+
+  const [showModal, setShowModal] = useState(false);
+  const [addedPerfume, setAddedPerfume] = useState(null);
+
+  const isReady =
+    perfumeType &&
+    notes.length > 0 &&
+    size &&
+    bottleColor &&
+    capColor;
+
+  const handleAddToCart = () => {
+    if (!isReady) return;
+
+    const customPerfume = {
+      id: crypto.randomUUID(),
+      name: "عطر مخصص",
+      perfumeType: perfumeType.name,
+      notes: notes.map((note) => note.name),
+      size: size.size,
+      bottleColor: bottleColor.name,
+      capColor: capColor.name,
+      price,
+      quantity: 1,
+    };
+
+    addToCart(customPerfume);
+
+    setAddedPerfume(customPerfume);
+    setShowModal(true);
+
+    console.log("Custom Perfume:", customPerfume);
+  };
+
   return (
     <section className="py-16">
       <div className="mb-10 text-center">
@@ -26,17 +71,17 @@ function PerfumePreview({
         {/* Bottle Preview */}
         <div className="flex justify-center">
           <div className="relative flex flex-col items-center">
-            {/* Cap */}
             <div
-              className={`h-16 w-12 rounded-t-xl ${capColor?.color || "bg-yellow-500"}`}
+              className={`h-16 w-12 rounded-t-xl ${
+                capColor?.color || "bg-yellow-500"
+              }`}
             />
 
-            {/* Bottle */}
             <div
               className={`${
                 size?.height || "h-64"
               } w-44 rounded-b-[40px] rounded-t-[30px] border border-gray-200 ${
-                bottleColor?.color || "bg-purple-200"
+                bottleColor?.color || "bg-purple-700"
               } shadow-xl transition-all duration-300`}
             />
 
@@ -58,9 +103,9 @@ function PerfumePreview({
                 نوع العطر
               </span>
 
-   <span className="font-bold text-purple-700">
-  {perfumeType?.name || "لم يتم الاختيار"}
-</span>
+              <span className="font-bold text-purple-700">
+                {perfumeType?.name || "لم يتم الاختيار"}
+              </span>
             </div>
 
             <div className="flex justify-between rounded-xl bg-gray-50 p-4">
@@ -68,11 +113,11 @@ function PerfumePreview({
                 النوتات
               </span>
 
-          <span className="font-bold text-purple-700">
-  {notes.length > 0
-    ? notes.map((note) => note.name).join(" - ")
-    : "لم يتم اختيار نوتات"}
-</span>
+              <span className="font-bold text-purple-700">
+                {notes.length > 0
+                  ? notes.map((note) => note.name).join(" - ")
+                  : "لم يتم اختيار نوتات"}
+              </span>
             </div>
 
             <div className="flex justify-between rounded-xl bg-gray-50 p-4">
@@ -116,11 +161,27 @@ function PerfumePreview({
             </div>
           </div>
 
-          <button className="mt-8 w-full rounded-xl bg-purple-700 py-4 font-semibold text-white transition hover:bg-purple-800">
-            أضف إلى السلة
+          <button
+            onClick={handleAddToCart}
+            disabled={!isReady}
+            className={`mt-8 w-full rounded-xl py-4 font-semibold transition-all duration-300 ${
+              isReady
+                ? "bg-purple-700 text-white hover:bg-purple-800"
+                : "cursor-not-allowed bg-gray-300 text-gray-500"
+            }`}
+          >
+            {isReady
+              ? "أضف إلى السلة"
+              : "أكمل اختياراتك أولاً"}
           </button>
         </div>
       </div>
+
+      <AddToCartModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        perfume={addedPerfume}
+      />
     </section>
   );
 }

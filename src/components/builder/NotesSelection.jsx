@@ -10,6 +10,8 @@ const notes = [
 ];
 
 function NotesSelection({ selectedNotes, setSelectedNotes }) {
+  const MAX_NOTES = 3;
+
   const toggleNote = (note) => {
     const exists = selectedNotes.some((item) => item.id === note.id);
 
@@ -17,9 +19,15 @@ function NotesSelection({ selectedNotes, setSelectedNotes }) {
       setSelectedNotes(
         selectedNotes.filter((item) => item.id !== note.id)
       );
-    } else {
-      setSelectedNotes([...selectedNotes, note]);
+      return;
     }
+
+    if (selectedNotes.length >= MAX_NOTES) {
+      alert(`يمكنك اختيار ${MAX_NOTES} نوتات فقط`);
+      return;
+    }
+
+    setSelectedNotes([...selectedNotes, note]);
   };
 
   return (
@@ -34,7 +42,11 @@ function NotesSelection({ selectedNotes, setSelectedNotes }) {
         </h2>
 
         <p className="mt-3 text-gray-600">
-          يمكنك اختيار أكثر من نوتة لتكوين عطرك.
+          اختر حتى 3 نوتات لتكوين عطرك.
+        </p>
+
+        <p className="mt-2 text-sm font-semibold text-purple-700">
+          {selectedNotes.length} / {MAX_NOTES} مختارة
         </p>
       </div>
 
@@ -50,8 +62,8 @@ function NotesSelection({ selectedNotes, setSelectedNotes }) {
               onClick={() => toggleNote(note)}
               className={`rounded-2xl border p-6 text-center font-semibold transition-all duration-300 ${
                 selected
-                  ? "border-purple-700 bg-purple-700 text-white shadow-lg"
-                  : "border-gray-200 bg-white hover:border-purple-700 hover:text-purple-700"
+                  ? "border-purple-700 bg-purple-700 text-white shadow-lg scale-105"
+                  : "border-gray-200 bg-white hover:-translate-y-1 hover:border-purple-700 hover:text-purple-700 hover:shadow-md"
               }`}
             >
               {note.name}

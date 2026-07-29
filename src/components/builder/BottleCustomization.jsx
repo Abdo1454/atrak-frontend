@@ -42,15 +42,13 @@ const capColors = [
 export default function BottleCustomization({
   selectedScent,
   selectedNotes,
-
   selectedSize,
   setSelectedSize,
-
   selectedBottleColor,
   setSelectedBottleColor,
-
   selectedCapColor,
   setSelectedCapColor,
+  price,
 }) {
   return (
     <section className="py-16">
@@ -148,13 +146,14 @@ export default function BottleCustomization({
 
         {/* Live Preview */}
         <div className="flex flex-1 justify-center">
-          <PerfumePreview
-            perfumeType={selectedScent}
-            notes={selectedNotes}
-            size={selectedSize}
-            bottleColor={selectedBottleColor}
-            capColor={selectedCapColor}
-          />
+       <PerfumePreview
+  perfumeType={selectedScent}
+  notes={selectedNotes}
+  size={selectedSize}
+  bottleColor={selectedBottleColor}
+  capColor={selectedCapColor}
+  price={price}
+/>
         </div>
       </div>
     </section>

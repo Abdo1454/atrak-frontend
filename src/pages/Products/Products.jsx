@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import { getProducts } from "../../api/productService";
+import { getCategories } from "../../api/categoryService";
 
 import ProductsHeader from "../../components/products/ProductsHeader";
 import SearchBar from "../../components/products/SearchBar";
@@ -10,6 +12,7 @@ import Pagination from "../../components/products/Pagination";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("default");
@@ -22,13 +25,29 @@ function Products() {
 
   const [loading, setLoading] = useState(true);
 
+  // Load categories once
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, sortBy, selectedCategory]);
+  }, [searchTerm, sortBy, selectedCategory, priceRange]);
 
+  // Fetch products
   useEffect(() => {
     fetchProducts();
-  }, [searchTerm, sortBy, selectedCategory, currentPage]);
+  }, [searchTerm, sortBy, selectedCategory, priceRange, currentPage]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await getCategories();
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -37,6 +56,7 @@ function Products() {
       const params = {
         page: currentPage,
         per_page: 12,
+        max_price: priceRange,
       };
 
       if (searchTerm.trim()) {
@@ -46,9 +66,6 @@ function Products() {
       if (selectedCategory) {
         params.category = selectedCategory;
       }
-
-      // فعّل هذا بعد إضافة فلترة السعر في Laravel
-      // params.max_price = priceRange;
 
       switch (sortBy) {
         case "price-low":
@@ -100,6 +117,7 @@ function Products() {
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
         <FilterSidebar
+          categories={categories}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           priceRange={priceRange}

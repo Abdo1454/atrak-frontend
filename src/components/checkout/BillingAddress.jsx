@@ -1,36 +1,54 @@
 import { useState } from "react";
 
-const BillingAddress = () => {
-  const [sameAddress, setSameAddress] = useState(true);
+function BillingAddress() {
+  const [sameAsShipping, setSameAsShipping] = useState(true);
 
   return (
     <section className="rounded-2xl bg-white p-6 shadow-sm">
-
       <h2 className="mb-6 text-2xl font-semibold text-gray-900">
         عنوان الفوترة
       </h2>
 
-
-      {/* Same Shipping Address */}
-      <div className="mb-6 flex items-center gap-3">
-
+      <label className="mb-6 flex cursor-pointer items-center gap-3">
         <input
           type="checkbox"
-          checked={sameAddress}
-          onChange={() => setSameAddress(!sameAddress)}
-          className="h-5 w-5 rounded border-gray-300 text-purple-700 focus:ring-purple-700"
+          checked={sameAsShipping}
+          onChange={() => setSameAsShipping(!sameAsShipping)}
+          className="h-5 w-5 accent-purple-700"
         />
 
-        <label className="font-medium text-gray-700">
+        <span className="font-medium text-gray-700">
           استخدام نفس عنوان الشحن
-        </label>
+        </span>
+      </label>
 
-      </div>
-
-
-      {/* Different Billing Address */}
-      {!sameAddress && (
+      {!sameAsShipping && (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Full Name */}
+          <div>
+            <label className="mb-2 block font-medium text-gray-700">
+              الاسم الكامل
+            </label>
+
+            <input
+              type="text"
+              placeholder="الاسم الكامل"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-purple-700 focus:outline-none"
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="mb-2 block font-medium text-gray-700">
+              البريد الإلكتروني
+            </label>
+
+            <input
+              type="email"
+              placeholder="example@email.com"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-purple-700 focus:outline-none"
+            />
+          </div>
 
           {/* Country */}
           <div>
@@ -45,7 +63,6 @@ const BillingAddress = () => {
             />
           </div>
 
-
           {/* City */}
           <div>
             <label className="mb-2 block font-medium text-gray-700">
@@ -59,7 +76,6 @@ const BillingAddress = () => {
             />
           </div>
 
-
           {/* Address */}
           <div className="md:col-span-2">
             <label className="mb-2 block font-medium text-gray-700">
@@ -67,31 +83,15 @@ const BillingAddress = () => {
             </label>
 
             <textarea
-              rows="4"
+              rows={4}
               placeholder="عنوان الفوترة"
               className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-purple-700 focus:outline-none"
             />
           </div>
-
-
-          {/* Postal Code */}
-          <div>
-            <label className="mb-2 block font-medium text-gray-700">
-              الرمز البريدي
-            </label>
-
-            <input
-              type="text"
-              placeholder="اختياري"
-              className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-purple-700 focus:outline-none"
-            />
-          </div>
-
         </div>
       )}
-
     </section>
   );
-};
+}
 
 export default BillingAddress;

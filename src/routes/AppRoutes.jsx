@@ -11,11 +11,15 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Builder from "../pages/Builder/Builder";
 import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+
 
 function AppRoutes() {
   return (
     <Routes>
+
       <Route element={<Layout />}>
+
         <Route path="/" element={<Home />} />
 
         <Route path="/products" element={<Products />} />
@@ -38,7 +42,11 @@ function AppRoutes() {
         <Route path="/builder" element={<Builder />} />
 
         <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
+
       </Route>
+
     </Routes>
   );
 }

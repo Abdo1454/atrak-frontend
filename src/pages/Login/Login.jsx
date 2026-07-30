@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
+
 import LoginHeader from "../../components/auth/LoginHeader";
 import LoginForm from "../../components/auth/LoginForm";
 import SocialLogin from "../../components/auth/SocialLogin";
-
 function Login() {
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
@@ -44,11 +45,12 @@ function Login() {
             <p className="mt-8 text-center text-sm text-gray-600">
               ليس لديك حساب؟
 
-              <button
-                className="mr-2 font-semibold text-violet-600 hover:underline"
-              >
-                إنشاء حساب
-              </button>
+             <Link
+  to="/register"
+  className="mr-2 font-semibold text-violet-600 hover:underline"
+>
+  إنشاء حساب
+</Link>
 
             </p>
 

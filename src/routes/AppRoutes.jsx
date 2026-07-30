@@ -10,17 +10,20 @@ import Success from "../pages/Success/Success";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Builder from "../pages/Builder/Builder";
+import Login from "../pages/Login/Login";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route element={<Layout />}>
-
         <Route path="/" element={<Home />} />
 
         <Route path="/products" element={<Products />} />
 
-        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route
+          path="/products/:id"
+          element={<ProductDetails />}
+        />
 
         <Route path="/cart" element={<Cart />} />
 
@@ -34,6 +37,7 @@ function AppRoutes() {
 
         <Route path="/builder" element={<Builder />} />
 
+        <Route path="/login" element={<Login />} />
       </Route>
     </Routes>
   );

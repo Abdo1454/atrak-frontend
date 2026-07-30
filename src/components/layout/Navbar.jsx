@@ -1,140 +1,113 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { HiMenu, HiX } from "react-icons/hi";
-import { ShoppingCart } from "lucide-react";
-import { useCart } from "../../context/CartContext";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ShoppingCart, LogOut, User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const { cart } = useCart();
+  const [user, setUser] = useState(null);
 
-  const cartCount = cart.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
-  const navLinks = [
-    { name: "الرئيسية", path: "/" },
-    { name: "العطور", path: "/products" },
-    { name: "اصنع عطرك", path: "/builder" },
-    { name: "من نحن", path: "/about" },
-    { name: "تواصل معنا", path: "/contact" },
-  ];
+    if (token && storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    setUser(null);
+
+    navigate("/login");
+  };
+
+  const navLinkClass = ({ isActive }) =>
+    `transition ${
+      isActive
+        ? "text-violet-700 font-bold"
+        : "text-gray-700 hover:text-violet-700"
+    }`;
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
+      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+
         {/* Logo */}
         <Link
           to="/"
-          className="text-3xl font-extrabold text-[#4E19AB]"
+          className="text-4xl font-black text-violet-700"
         >
           عطرك
         </Link>
 
-        {/* Desktop Menu */}
-        <ul className="hidden items-center gap-8 md:flex">
-          {navLinks.map((item) => (
-            <li key={item.path}>
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `transition ${
-                    isActive
-                      ? "font-bold text-[#4E19AB]"
-                      : "text-gray-700 hover:text-[#4E19AB]"
-                  }`
-                }
-              >
-                {item.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        {/* Navigation */}
+        <nav className="hidden gap-10 md:flex">
+          <NavLink to="/" className={navLinkClass}>
+            الرئيسية
+          </NavLink>
 
-        {/* Desktop Actions */}
-        <div className="hidden items-center gap-4 md:flex">
-          {/* Cart */}
-          <Link
-            to="/cart"
-            className="relative rounded-xl p-2 transition hover:bg-gray-100"
-          >
+          <NavLink to="/products" className={navLinkClass}>
+            العطور
+          </NavLink>
+
+          <NavLink to="/builder" className={navLinkClass}>
+            اصنع عطرك
+          </NavLink>
+
+          <NavLink to="/about" className={navLinkClass}>
+            من نحن
+          </NavLink>
+
+          <NavLink to="/contact" className={navLinkClass}>
+            تواصل معنا
+          </NavLink>
+        </nav>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
+
+          <Link to="/cart">
             <ShoppingCart
-              size={24}
-              className="text-[#4E19AB]"
+              size={28}
+              className="text-violet-700 hover:scale-110 transition"
             />
-
-            {cartCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                {cartCount}
-              </span>
-            )}
           </Link>
 
-          {/* Login */}
-          <Link
-            to="/login"
-            className="rounded-xl bg-[#4E19AB] px-6 py-2 text-white transition hover:opacity-90"
-          >
-            تسجيل الدخول
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-3xl text-[#4E19AB] md:hidden"
-        >
-          {isOpen ? <HiX /> : <HiMenu />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="border-t bg-white md:hidden">
-          <ul className="flex flex-col p-4">
-            {navLinks.map((item) => (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  onClick={() => setIsOpen(false)}
-                  className="block rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100"
-                >
-                  {item.name}
-                </NavLink>
-              </li>
-            ))}
-
-            {/* Cart */}
-            <Link
-              to="/cart"
-              onClick={() => setIsOpen(false)}
-              className="mt-3 flex items-center justify-center gap-2 rounded-lg border py-3"
-            >
-              <ShoppingCart size={20} />
-
-              سلة التسوق
-
-              {cartCount > 0 && (
-                <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-
-            {/* Login */}
+          {!user ? (
             <Link
               to="/login"
-              onClick={() => setIsOpen(false)}
-              className="mt-3 rounded-lg bg-[#4E19AB] py-3 text-center text-white"
+              className="rounded-xl bg-violet-700 px-6 py-3 text-white transition hover:bg-violet-800"
             >
               تسجيل الدخول
             </Link>
-          </ul>
+          ) : (
+            <div className="flex items-center gap-3">
+
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 rounded-xl bg-violet-50 px-4 py-2 text-violet-700"
+              >
+                <User size={18} />
+                {user.name}
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 rounded-xl bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+              >
+                <LogOut size={18} />
+                تسجيل الخروج
+              </button>
+
+            </div>
+          )}
         </div>
-      )}
-    </nav>
+      </div>
+    </header>
   );
 }
 

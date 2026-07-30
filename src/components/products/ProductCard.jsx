@@ -1,12 +1,19 @@
 import { Star, ShoppingCart, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
+
+const IMAGE_BASE_URL = "http://127.0.0.1:8000";
+
 function ProductCard({ product }) {
+  const imageUrl = product.image
+    ? `${IMAGE_BASE_URL}/${product.image}`
+    : "/images/products/placeholder.jpg";
+
   return (
     <div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Image */}
       <div className="relative overflow-hidden">
         <img
-          src={product.image}
+          src={imageUrl}
           alt={product.name}
           className="h-72 w-full object-cover transition duration-500 group-hover:scale-105"
         />
@@ -26,7 +33,7 @@ function ProductCard({ product }) {
           </h3>
 
           <p className="mt-1 text-sm text-gray-500">
-            {product.category}
+            {product.category?.name}
           </p>
         </div>
 
@@ -38,13 +45,13 @@ function ProductCard({ product }) {
           />
 
           <span className="font-medium">
-            {product.rating}
+            {product.rating ?? "N/A"}
           </span>
         </div>
 
         {/* Price */}
         <div className="text-2xl font-bold text-violet-700">
-          {product.price} EGP
+          {Number(product.price).toFixed(2)} EGP
         </div>
 
         {/* Buttons */}
@@ -54,12 +61,12 @@ function ProductCard({ product }) {
             أضف للسلة
           </button>
 
-        <Link
-  to={`/products/${product.id}`}
-  className="rounded-xl border border-violet-600 p-3 text-violet-600 transition hover:bg-violet-600 hover:text-white"
->
-  <Eye size={18} />
-</Link>
+          <Link
+            to={`/products/${product.id}`}
+            className="rounded-xl border border-violet-600 p-3 text-violet-600 transition hover:bg-violet-600 hover:text-white"
+          >
+            <Eye size={18} />
+          </Link>
         </div>
       </div>
     </div>

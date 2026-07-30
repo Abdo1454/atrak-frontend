@@ -1,14 +1,21 @@
-import { useState } from "react";
-function ProductGallery({ product }) {
+import { useEffect, useState } from "react";
 
-      const images = product?.images || [
-    "/images/products/perfume-1.png",
-    "/images/products/perfume-2.png",
-    "/images/products/perfume-3.png",
-    "/images/products/perfume-4.png",
-  ];
-   const [selectedImage, setSelectedImage] = useState(images[0]);
-   return (
+const STORAGE_URL = "http://127.0.0.1:8000/storage";
+
+function ProductGallery({ product }) {
+  const defaultImage = `${STORAGE_URL}/products/default.png`;
+
+  const images = product?.image
+    ? [`${STORAGE_URL}/${product.image}`]
+    : [defaultImage];
+
+  const [selectedImage, setSelectedImage] = useState(images[0]);
+
+  useEffect(() => {
+    setSelectedImage(images[0]);
+  }, [product]);
+
+  return (
     <div className="space-y-5">
       {/* Main Image */}
       <div className="overflow-hidden rounded-3xl bg-white shadow-lg">
@@ -16,6 +23,9 @@ function ProductGallery({ product }) {
           src={selectedImage}
           alt={product?.name || "Perfume"}
           className="h-[500px] w-full object-cover transition duration-500 hover:scale-105"
+          onError={(e) => {
+            e.target.src = defaultImage;
+          }}
         />
       </div>
 
@@ -35,6 +45,9 @@ function ProductGallery({ product }) {
               src={image}
               alt={`Thumbnail ${index + 1}`}
               className="h-24 w-full object-cover"
+              onError={(e) => {
+                e.target.src = defaultImage;
+              }}
             />
           </button>
         ))}
@@ -42,4 +55,5 @@ function ProductGallery({ product }) {
     </div>
   );
 }
+
 export default ProductGallery;

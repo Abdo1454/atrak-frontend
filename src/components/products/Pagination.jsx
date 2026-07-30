@@ -1,40 +1,45 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
 function Pagination({
-  currentPage,
-  totalPages,
+  currentPage = 1,
+  totalPages = 1,
   onPageChange,
 }) {
+  if (totalPages <= 1) return null;
+
+  const pages = Array.from(
+    { length: totalPages },
+    (_, index) => index + 1
+  );
+
   return (
     <div className="mt-10 flex items-center justify-center gap-2">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="rounded-lg border p-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <ChevronRight size={18} />
+        السابق
       </button>
 
-      {Array.from({ length: totalPages }, (_, index) => (
+      {pages.map((page) => (
         <button
-          key={index + 1}
-          onClick={() => onPageChange(index + 1)}
-          className={`h-10 w-10 rounded-lg font-medium transition ${
-            currentPage === index + 1
-              ? "bg-violet-600 text-white"
+          key={page}
+          onClick={() => onPageChange(page)}
+          className={`rounded-lg px-4 py-2 transition ${
+            currentPage === page
+              ? "bg-purple-600 text-white"
               : "border hover:bg-gray-100"
           }`}
         >
-          {index + 1}
+          {page}
         </button>
       ))}
 
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="rounded-lg border p-2 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <ChevronLeft size={18} />
+        التالي
       </button>
     </div>
   );

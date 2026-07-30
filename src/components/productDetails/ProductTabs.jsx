@@ -1,66 +1,74 @@
-import { useState } from "react";
-import ReviewsSection from "./ReviewsSection";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-function ProductTabs({ product }) {
-  const [activeTab, setActiveTab] = useState("description");
+import { getProduct } from "../../api/productService";
 
-  const tabs = [
-    { id: "description", label: "الوصف" },
-    { id: "ingredients", label: "المكونات" },
-    { id: "reviews", label: "التقييمات" },
-  ];
+import ProductGallery from "../../components/productDetails/ProductGallery";
+import ProductInfo from "../../components/productDetails/ProductInfo";
+import ProductTabs from "../../components/productDetails/ProductTabs";
+import RelatedProducts from "../../components/productDetails/RelatedProducts";
+
+function ProductDetails() {
+  const { id } = useParams();
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [id]);
+
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+
+      const response = await getProduct(id);
+
+      setProduct(response.data);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 text-center">
+        Loading product...
+      </section>
+    );
+  }
+
+  if (!product) {
+    return (
+      <section className="py-20 text-center">
+        Product not found.
+      </section>
+    );
+  }
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-md">
-      {/* Tabs */}
-      <div className="mb-8 flex border-b">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`border-b-2 px-6 py-3 text-lg font-medium transition ${
-              activeTab === tab.id
-                ? "border-violet-600 text-violet-600"
-                : "border-transparent text-gray-500 hover:text-violet-600"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+    <section className="bg-gray-50 py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+          <ProductGallery product={product} />
+          <ProductInfo product={product} />
+        </div>
+
+        <div className="mt-16">
+          <ProductTabs product={product} />
+        </div>
+
+        <div className="mt-20">
+          <RelatedProducts
+            currentProductId={product.id}
+            categoryId={product.category_id}
+          />
+        </div>
       </div>
-
-      {/* Content */}
-      {activeTab === "description" && (
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">
-            وصف المنتج
-          </h3>
-
-          <p className="leading-8 text-gray-600">
-            {product.description}
-          </p>
-        </div>
-      )}
-
-      {activeTab === "ingredients" && (
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">
-            المكونات
-          </h3>
-
-          <ul className="list-disc space-y-2 pr-6 text-gray-600">
-            {product.ingredients.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {activeTab === "reviews" && (
-        <ReviewsSection reviews={product.reviewsList} />
-      )}
-    </div>
+    </section>
   );
 }
 
-export default ProductTabs;
+export default ProductDetails;

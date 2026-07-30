@@ -1,70 +1,34 @@
-import { createContext, useContext, useMemo, useState } from "react";
+const subtotal = useMemo(
+  () =>
+    cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    ),
+  [cart]
+);
 
-const CartContext = createContext();
+const shipping = useMemo(
+  () => (cart.length > 0 ? 100 : 0),
+  [cart]
+);
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+const tax = useMemo(
+  () => subtotal * 0.14,
+  [subtotal]
+);
 
-  const addToCart = (item) => {
-    setCart((prev) => {
-      const existingItem = prev.find((cartItem) => cartItem.id === item.id);
+const discount = useMemo(() => 0, []);
 
-      if (existingItem) {
-        return prev.map((cartItem) =>
-          cartItem.id === item.id
-            ? {
-                ...cartItem,
-                quantity: cartItem.quantity + item.quantity,
-              }
-            : cartItem
-        );
-      }
+const total = useMemo(
+  () => subtotal + shipping + tax - discount,
+  [subtotal, shipping, tax, discount]
+);
 
-      return [...prev, item];
-    });
-  };
-
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const updateQuantity = (id, quantity) => {
-    if (quantity < 1) return;
-
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  const clearCart = () => setCart([]);
-
-  const subtotal = useMemo(
-    () =>
-      cart.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      ),
-    [cart]
-  );
-
-  const value = {
-    cart,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    subtotal,
-  };
-
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
-}
-
-export function useCart() {
-  return useContext(CartContext);
-}
+const totalItems = useMemo(
+  () =>
+    cart.reduce(
+      (total, item) => total + item.quantity,
+      0
+    ),
+  [cart]
+);

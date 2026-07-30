@@ -1,6 +1,6 @@
 import api from "./axios";
 
-export const createOrder = async (order) => {
-  const { data } = await api.post("/orders", order);
-  return data;
+export const createOrder = async (orderData) => {
+  const response = await api.post("/orders", orderData);
+  return response.data;
 };

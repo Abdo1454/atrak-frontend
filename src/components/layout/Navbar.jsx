@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "../../context/CartContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { cart } = useCart();
+
+  const cartCount = cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const navLinks = [
     { name: "الرئيسية", path: "/" },
@@ -44,15 +53,35 @@ function Navbar() {
           ))}
         </ul>
 
-        {/* Login Button */}
-        <Link
-          to="/login"
-          className="hidden rounded-xl bg-[#4E19AB] px-6 py-2 text-white transition hover:opacity-90 md:block"
-        >
-          تسجيل الدخول
-        </Link>
+        {/* Desktop Actions */}
+        <div className="hidden items-center gap-4 md:flex">
+          {/* Cart */}
+          <Link
+            to="/cart"
+            className="relative rounded-xl p-2 transition hover:bg-gray-100"
+          >
+            <ShoppingCart
+              size={24}
+              className="text-[#4E19AB]"
+            />
 
-        {/* Mobile Button */}
+            {cartCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
+          {/* Login */}
+          <Link
+            to="/login"
+            className="rounded-xl bg-[#4E19AB] px-6 py-2 text-white transition hover:opacity-90"
+          >
+            تسجيل الدخول
+          </Link>
+        </div>
+
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-3xl text-[#4E19AB] md:hidden"
@@ -77,8 +106,27 @@ function Navbar() {
               </li>
             ))}
 
+            {/* Cart */}
+            <Link
+              to="/cart"
+              onClick={() => setIsOpen(false)}
+              className="mt-3 flex items-center justify-center gap-2 rounded-lg border py-3"
+            >
+              <ShoppingCart size={20} />
+
+              سلة التسوق
+
+              {cartCount > 0 && (
+                <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Login */}
             <Link
               to="/login"
+              onClick={() => setIsOpen(false)}
               className="mt-3 rounded-lg bg-[#4E19AB] py-3 text-center text-white"
             >
               تسجيل الدخول

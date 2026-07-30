@@ -1,13 +1,29 @@
 import { useState } from "react";
 import { Star, Heart, ShoppingCart } from "lucide-react";
+import { useCart } from "../../context/CartContext";
 
 function ProductInfo({ product }) {
   const [size, setSize] = useState("100ml");
   const [quantity, setQuantity] = useState(1);
 
+  const { addToCart } = useCart();
+
   if (!product) {
     return <p>Loading...</p>;
   }
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      image: product.image,
+      price: Number(product.price),
+      quantity,
+      size,
+    });
+
+    alert("تمت إضافة المنتج إلى السلة");
+  };
 
   return (
     <div className="space-y-6">
@@ -24,8 +40,8 @@ function ProductInfo({ product }) {
       {/* Stock */}
       <div className="flex items-center gap-2">
         <Star
-          className="fill-yellow-400 text-yellow-400"
           size={20}
+          className="fill-yellow-400 text-yellow-400"
         />
 
         <span className="font-medium">
@@ -35,7 +51,7 @@ function ProductInfo({ product }) {
 
       {/* Price */}
       <h2 className="text-3xl font-bold text-violet-700">
-        {product.price} EGP
+        {Number(product.price).toFixed(2)} EGP
       </h2>
 
       {/* Description */}
@@ -92,7 +108,10 @@ function ProductInfo({ product }) {
 
       {/* Buttons */}
       <div className="flex flex-wrap gap-4">
-        <button className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-white transition hover:bg-violet-700">
+        <button
+          onClick={handleAddToCart}
+          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-white transition hover:bg-violet-700"
+        >
           <ShoppingCart size={20} />
           أضف إلى السلة
         </button>

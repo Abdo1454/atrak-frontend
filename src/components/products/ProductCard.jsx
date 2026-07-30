@@ -1,12 +1,19 @@
 import { Star, ShoppingCart, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 const IMAGE_BASE_URL = "http://127.0.0.1:8000";
 
 function ProductCard({ product }) {
+  const { addToCart } = useCart();
+
   const imageUrl = product.image
     ? `${IMAGE_BASE_URL}/${product.image}`
     : "/images/products/placeholder.jpg";
+
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+  };
 
   return (
     <div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -56,7 +63,10 @@ function ProductCard({ product }) {
 
         {/* Buttons */}
         <div className="flex gap-3">
-          <button className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-violet-600 py-3 text-white transition hover:bg-violet-700">
+          <button
+            onClick={handleAddToCart}
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-violet-600 py-3 text-white transition hover:bg-violet-700"
+          >
             <ShoppingCart size={18} />
             أضف للسلة
           </button>

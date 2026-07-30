@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getProductById } from "../../api/productService";
+import { getProduct } from "../../api/productService";
 
 import ProductGallery from "../../components/productDetails/ProductGallery";
 import ProductInfo from "../../components/productDetails/ProductInfo";

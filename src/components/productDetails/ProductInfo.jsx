@@ -13,7 +13,7 @@ function ProductInfo({ product }) {
     <div className="space-y-6">
       {/* Category */}
       <span className="text-sm font-medium text-violet-600">
-        {product.category}
+        {product.category?.name}
       </span>
 
       {/* Name */}
@@ -21,12 +21,15 @@ function ProductInfo({ product }) {
         {product.name}
       </h1>
 
-      {/* Rating */}
+      {/* Stock */}
       <div className="flex items-center gap-2">
-        <Star className="fill-yellow-400 text-yellow-400" size={20} />
-        <span className="font-medium">{product.rating}</span>
-        <span className="text-gray-500">
-          ({product.reviews} مراجعة)
+        <Star
+          className="fill-yellow-400 text-yellow-400"
+          size={20}
+        />
+
+        <span className="font-medium">
+          In Stock: {product.stock}
         </span>
       </div>
 
@@ -77,7 +80,10 @@ function ProductInfo({ product }) {
           <span>{quantity}</span>
 
           <button
-            onClick={() => setQuantity(quantity + 1)}
+            onClick={() =>
+              quantity < product.stock &&
+              setQuantity(quantity + 1)
+            }
           >
             +
           </button>

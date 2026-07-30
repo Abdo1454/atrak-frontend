@@ -1,5 +1,3 @@
-import { Star } from "lucide-react";
-
 function ReviewCard({ review }) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -23,7 +21,7 @@ function ReviewCard({ review }) {
         </div>
       </div>
 
-      <p className="text-gray-600 leading-7">
+      <p className="leading-7 text-gray-600">
         {review.comment}
       </p>
     </div>

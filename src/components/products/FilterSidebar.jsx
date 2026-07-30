@@ -1,16 +1,26 @@
+import { useEffect, useState } from "react";
+import { getCategories } from "../../api/categoryService";
+
 function FilterSidebar({
   selectedCategory,
   setSelectedCategory,
   priceRange,
   setPriceRange,
 }) {
-  const categories = [
-    "الكل",
-    "رجالي",
-    "نسائي",
-    "شرقي",
-    "فرنسي",
-  ];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  async function fetchCategories() {
+    try {
+      const response = await getCategories();
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
 
   return (
     <aside className="rounded-2xl bg-white p-6 shadow-md">
@@ -23,22 +33,33 @@ function FilterSidebar({
         <h3 className="mb-3 font-semibold">الفئة</h3>
 
         <div className="space-y-2">
+          <label className="flex cursor-pointer items-center gap-2">
+            <input
+              type="radio"
+              name="category"
+              value=""
+              checked={selectedCategory === ""}
+              onChange={() => setSelectedCategory("")}
+            />
+            <span>الكل</span>
+          </label>
+
           {categories.map((category) => (
             <label
-              key={category}
-              className="flex items-center gap-2 cursor-pointer"
+              key={category.id}
+              className="flex cursor-pointer items-center gap-2"
             >
               <input
                 type="radio"
                 name="category"
-                value={category}
-                checked={selectedCategory === category}
-                onChange={(e) =>
-                  setSelectedCategory(e.target.value)
+                value={category.id}
+                checked={selectedCategory === category.id}
+                onChange={() =>
+                  setSelectedCategory(category.id)
                 }
               />
 
-              <span>{category}</span>
+              <span>{category.name}</span>
             </label>
           ))}
         </div>
@@ -50,9 +71,9 @@ function FilterSidebar({
 
         <input
           type="range"
-          min="100"
-          max="5000"
-          step="100"
+          min={100}
+          max={5000}
+          step={100}
           value={priceRange}
           onChange={(e) =>
             setPriceRange(Number(e.target.value))

@@ -1,6 +1,14 @@
 import { Pencil, Trash2, Eye } from "lucide-react";
 
 function ProductsTable({ products = [] }) {
+  const getImageUrl = (image) => {
+    if (!image) return "/images/no-image.png";
+
+    if (image.startsWith("http")) return image;
+
+    return `http://127.0.0.1:8000/storage/${image}`;
+  };
+
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
       <div className="flex items-center justify-between border-b px-6 py-5">
@@ -27,7 +35,7 @@ function ProductsTable({ products = [] }) {
           </thead>
 
           <tbody>
-            {products.length > 0 ? (
+            {products.length ? (
               products.map((product) => (
                 <tr
                   key={product.id}
@@ -35,9 +43,12 @@ function ProductsTable({ products = [] }) {
                 >
                   <td className="px-6 py-4">
                     <img
-                      src={product.image}
+                      src={getImageUrl(product.image)}
                       alt={product.name}
                       className="h-14 w-14 rounded-lg object-cover"
+                      onError={(e) => {
+                        e.target.src = "/images/no-image.png";
+                      }}
                     />
                   </td>
 
@@ -46,11 +57,11 @@ function ProductsTable({ products = [] }) {
                   </td>
 
                   <td className="px-6 py-4">
-                    {product.category}
+                    {product.category?.name ?? "-"}
                   </td>
 
                   <td className="px-6 py-4 font-semibold">
-                    {product.price} EGP
+                    {Number(product.price).toLocaleString()} EGP
                   </td>
 
                   <td className="px-6 py-4">
@@ -96,7 +107,7 @@ function ProductsTable({ products = [] }) {
             ) : (
               <tr>
                 <td
-                  colSpan="6"
+                  colSpan={6}
                   className="py-10 text-center text-gray-500"
                 >
                   لا توجد منتجات لعرضها.

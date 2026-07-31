@@ -1,47 +1,63 @@
-import Sidebar from "../../components/dashboard/Sidebar";
-import Topbar from "../../components/dashboard/Topbar";
-
 function ChangePassword() {
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+    <section className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          🔒 تغيير كلمة المرور
+        </h1>
 
-      <main className="flex-1">
-        <Topbar />
+        <p className="mt-2 text-gray-500">
+          أدخل كلمة المرور الحالية ثم اختر كلمة مرور جديدة.
+        </p>
+      </div>
 
-        <div className="mx-auto max-w-xl p-6">
-          <div className="rounded-2xl bg-white p-8 shadow-sm">
-            <h2 className="mb-6 text-2xl font-bold">
-              🔒 تغيير كلمة المرور
-            </h2>
+      <div className="mx-auto max-w-xl rounded-2xl bg-white p-8 shadow-sm">
+        <form className="space-y-4">
+          <div>
+            <label className="mb-2 block font-medium text-gray-700">
+              كلمة المرور الحالية
+            </label>
 
-            <form className="space-y-4">
-              <input
-                type="password"
-                placeholder="كلمة المرور الحالية"
-                className="w-full rounded-xl border p-3"
-              />
-
-              <input
-                type="password"
-                placeholder="كلمة المرور الجديدة"
-                className="w-full rounded-xl border p-3"
-              />
-
-              <input
-                type="password"
-                placeholder="تأكيد كلمة المرور"
-                className="w-full rounded-xl border p-3"
-              />
-
-              <button className="w-full rounded-xl bg-violet-600 py-3 font-semibold text-white hover:bg-violet-700">
-                تحديث كلمة المرور
-              </button>
-            </form>
+            <input
+              type="password"
+              placeholder="أدخل كلمة المرور الحالية"
+              className="w-full rounded-xl border border-gray-300 p-3 outline-none transition focus:border-violet-600"
+            />
           </div>
-        </div>
-      </main>
-    </div>
+
+          <div>
+            <label className="mb-2 block font-medium text-gray-700">
+              كلمة المرور الجديدة
+            </label>
+
+            <input
+              type="password"
+              placeholder="أدخل كلمة المرور الجديدة"
+              className="w-full rounded-xl border border-gray-300 p-3 outline-none transition focus:border-violet-600"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block font-medium text-gray-700">
+              تأكيد كلمة المرور
+            </label>
+
+            <input
+              type="password"
+              placeholder="أعد إدخال كلمة المرور الجديدة"
+              className="w-full rounded-xl border border-gray-300 p-3 outline-none transition focus:border-violet-600"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-violet-600 py-3 font-semibold text-white transition hover:bg-violet-700"
+          >
+            تحديث كلمة المرور
+          </button>
+        </form>
+      </div>
+    </section>
   );
 }
 

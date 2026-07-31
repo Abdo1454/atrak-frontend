@@ -15,20 +15,24 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+
+        const response = await getProduct(id);
+
+        // إذا كانت الـ API ترجع { data: {...} }
+        setProduct(response.data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchProduct();
   }, [id]);
-
-  const fetchProduct = async () => {
-    try {
-      const response = await getProductById(id);
-
-      setProduct(response.data);
-    } catch (error) {
-      console.error("Error fetching product:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -49,18 +53,15 @@ function ProductDetails() {
   return (
     <section className="bg-gray-50 py-12">
       <div className="container mx-auto px-4">
-        {/* Product Section */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <ProductGallery product={product} />
           <ProductInfo product={product} />
         </div>
 
-        {/* Tabs */}
         <div className="mt-16">
           <ProductTabs product={product} />
         </div>
 
-        {/* Related Products */}
         <div className="mt-20">
           <RelatedProducts
             currentProductId={product.id}

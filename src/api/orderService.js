@@ -1,6 +1,21 @@
 import api from "./axios";
 
-export const createOrder = async (orderData) => {
-  const response = await api.post("/orders", orderData);
-  return response.data;
+export const getOrders = () => {
+  return api.get("/orders");
 };
+
+export const getOrder = (id) => {
+  return api.get(`/orders/${id}`);
+};
+
+export const createOrder = (data) => {
+  return api.post("/orders", data);
+};
+
+const orderService = {
+  getOrders,
+  getOrder,
+  createOrder,
+};
+
+export default orderService;

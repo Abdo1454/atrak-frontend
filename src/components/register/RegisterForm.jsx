@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { register } from "../../api/authService";
-
+import authService from "../../api/authService";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -14,11 +13,8 @@ function RegisterForm() {
     password_confirmation: "",
   });
 
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
-
 
   const handleChange = (e) => {
     setForm((prev) => ({
@@ -27,21 +23,16 @@ function RegisterForm() {
     }));
   };
 
-
-
   const validate = () => {
     const newErrors = {};
-
 
     if (!form.name.trim()) {
       newErrors.name = "الاسم مطلوب";
     }
 
-
     if (!form.email.trim()) {
       newErrors.email = "البريد الإلكتروني مطلوب";
     }
-
 
     if (!form.password) {
       newErrors.password = "كلمة المرور مطلوبة";
@@ -50,94 +41,58 @@ function RegisterForm() {
         "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
     }
 
-
-    if (
-      form.password !==
-      form.password_confirmation
-    ) {
+    if (form.password !== form.password_confirmation) {
       newErrors.password_confirmation =
         "تأكيد كلمة المرور غير مطابق";
     }
-
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     if (!validate()) return;
 
-
     try {
-
       setLoading(true);
 
+      const { data } = await authService.register(form);
 
-      const response = await register(form);
-
-
-
-      localStorage.setItem(
-        "token",
-        response.token
-      );
-
-
+      localStorage.setItem("token", data.token);
       localStorage.setItem(
         "user",
-        JSON.stringify(response.user)
+        JSON.stringify(data.user)
       );
 
-
-
       navigate("/");
-
-
     } catch (error) {
+      console.error(error);
 
       if (error.response?.status === 422) {
-
-        setErrors(
-          error.response.data.errors || {}
-        );
-
+        setErrors(error.response.data.errors || {});
       } else {
-
         setErrors({
-          general:
-            "حدث خطأ أثناء إنشاء الحساب"
+          general: "حدث خطأ أثناء إنشاء الحساب",
         });
-
       }
-
     } finally {
-
       setLoading(false);
-
     }
   };
-
-
 
   return (
     <form
       onSubmit={handleSubmit}
       className="space-y-5"
     >
-
       {errors.general && (
         <p className="rounded-xl bg-red-50 p-3 text-center text-red-600">
           {errors.general}
         </p>
       )}
-
-
 
       {/* Name */}
       <div>
@@ -152,12 +107,12 @@ function RegisterForm() {
 
         {errors.name && (
           <p className="mt-1 text-sm text-red-500">
-            {errors.name}
+            {Array.isArray(errors.name)
+              ? errors.name[0]
+              : errors.name}
           </p>
         )}
       </div>
-
-
 
       {/* Email */}
       <div>
@@ -172,12 +127,12 @@ function RegisterForm() {
 
         {errors.email && (
           <p className="mt-1 text-sm text-red-500">
-            {errors.email}
+            {Array.isArray(errors.email)
+              ? errors.email[0]
+              : errors.email}
           </p>
         )}
       </div>
-
-
 
       {/* Password */}
       <div>
@@ -192,12 +147,12 @@ function RegisterForm() {
 
         {errors.password && (
           <p className="mt-1 text-sm text-red-500">
-            {errors.password}
+            {Array.isArray(errors.password)
+              ? errors.password[0]
+              : errors.password}
           </p>
         )}
       </div>
-
-
 
       {/* Confirm Password */}
       <div>
@@ -212,12 +167,12 @@ function RegisterForm() {
 
         {errors.password_confirmation && (
           <p className="mt-1 text-sm text-red-500">
-            {errors.password_confirmation}
+            {Array.isArray(errors.password_confirmation)
+              ? errors.password_confirmation[0]
+              : errors.password_confirmation}
           </p>
         )}
       </div>
-
-
 
       <button
         type="submit"
@@ -232,11 +187,8 @@ function RegisterForm() {
           ? "جاري إنشاء الحساب..."
           : "إنشاء حساب"}
       </button>
-
-
     </form>
   );
 }
-
 
 export default RegisterForm;

@@ -1,168 +1,296 @@
 import { useState } from "react";
-import { Save, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Save, ArrowLeft } from "lucide-react";
+
+import adminService from "../../api/adminService";
+
 
 function AddProduct() {
+
   const navigate = useNavigate();
+
 
   const [formData, setFormData] = useState({
     name: "",
-    category: "",
+    category_id: "",
     price: "",
     stock: "",
-    image: "",
     description: "",
+    image: null,
   });
 
+
+  const [loading, setLoading] = useState(false);
+
+
+
   const handleChange = (e) => {
+
+    const { name, value } = e.target;
+
+
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+
   };
+
+
+
+  const handleImage = (e) => {
+
+    setFormData((prev) => ({
+      ...prev,
+      image: e.target.files[0],
+    }));
+
+  };
+
+
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
-    console.log(formData);
 
-    // لاحقًا:
-    // await adminService.createProduct(formData);
+    try {
 
-    navigate("/admin/products");
+      setLoading(true);
+
+
+      const data = new FormData();
+
+
+      data.append(
+        "name",
+        formData.name
+      );
+
+
+      data.append(
+        "category_id",
+        formData.category_id
+      );
+
+
+      data.append(
+        "price",
+        formData.price
+      );
+
+
+      data.append(
+        "stock",
+        formData.stock
+      );
+
+
+      data.append(
+        "description",
+        formData.description
+      );
+
+
+      if (formData.image) {
+
+        data.append(
+          "image",
+          formData.image
+        );
+
+      }
+
+
+
+      await adminService.createProduct(data);
+
+
+
+      navigate("/admin/products");
+
+
+
+    } catch(error) {
+
+      console.error(
+        "Create Product Error:",
+        error
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
   };
 
+
+
   return (
-    <div className="mx-auto max-w-5xl rounded-2xl bg-white p-8 shadow-sm">
+
+    <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-sm">
+
+
       <div className="mb-8 flex items-center justify-between">
+
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
-            إضافة منتج جديد
+
+          <h1 className="text-3xl font-bold">
+            إضافة منتج
           </h1>
 
           <p className="mt-2 text-gray-500">
-            أدخل بيانات المنتج لإضافته إلى المتجر.
+            إنشاء منتج جديد في المتجر
           </p>
+
         </div>
 
+
         <button
-          onClick={() => navigate("/admin/products")}
-          className="flex items-center gap-2 rounded-xl border px-5 py-3 transition hover:bg-gray-100"
+
+          onClick={() =>
+            navigate("/admin/products")
+          }
+
+          className="flex items-center gap-2 rounded-xl border px-5 py-3"
+
         >
-          <ArrowLeft size={20} />
+
+          <ArrowLeft size={20}/>
+
           رجوع
+
         </button>
+
+
       </div>
+
+
 
       <form
         onSubmit={handleSubmit}
         className="space-y-6"
       >
+
+
         <div className="grid gap-6 md:grid-cols-2">
-          <div>
-            <label className="mb-2 block font-semibold">
-              اسم المنتج
-            </label>
 
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border p-3 outline-none focus:border-violet-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-semibold">
-              التصنيف
-            </label>
-
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border p-3 outline-none focus:border-violet-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-semibold">
-              السعر (EGP)
-            </label>
-
-            <input
-              type="number"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              required
-              min="0"
-              className="w-full rounded-xl border p-3 outline-none focus:border-violet-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-semibold">
-              المخزون
-            </label>
-
-            <input
-              type="number"
-              name="stock"
-              value={formData.stock}
-              onChange={handleChange}
-              required
-              min="0"
-              className="w-full rounded-xl border p-3 outline-none focus:border-violet-500"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="mb-2 block font-semibold">
-            رابط الصورة
-          </label>
 
           <input
             type="text"
-            name="image"
-            value={formData.image}
+            name="name"
+            placeholder="اسم المنتج"
+            value={formData.name}
             onChange={handleChange}
-            className="w-full rounded-xl border p-3 outline-none focus:border-violet-500"
-            placeholder="https://..."
+            className="rounded-xl border p-3"
           />
+
+
+
+          <input
+            type="number"
+            name="category_id"
+            placeholder="Category ID"
+            value={formData.category_id}
+            onChange={handleChange}
+            className="rounded-xl border p-3"
+          />
+
+
+
+          <input
+            type="number"
+            name="price"
+            placeholder="السعر"
+            value={formData.price}
+            onChange={handleChange}
+            className="rounded-xl border p-3"
+          />
+
+
+
+          <input
+            type="number"
+            name="stock"
+            placeholder="المخزون"
+            value={formData.stock}
+            onChange={handleChange}
+            className="rounded-xl border p-3"
+          />
+
+
         </div>
+
+
+
+        <textarea
+
+          name="description"
+
+          rows="5"
+
+          placeholder="الوصف"
+
+          value={formData.description}
+
+          onChange={handleChange}
+
+          className="w-full rounded-xl border p-3"
+
+        />
+
+
+
 
         <div>
+
           <label className="mb-2 block font-semibold">
-            وصف المنتج
+            صورة المنتج
           </label>
 
-          <textarea
-            rows="6"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full rounded-xl border p-3 outline-none focus:border-violet-500"
+
+          <input
+
+            type="file"
+
+            accept="image/*"
+
+            onChange={handleImage}
+
           />
+
         </div>
 
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="flex items-center gap-2 rounded-xl bg-violet-600 px-8 py-3 font-semibold text-white transition hover:bg-violet-700"
-          >
-            <Save size={20} />
-            حفظ المنتج
-          </button>
-        </div>
+
+
+
+        <button
+
+          disabled={loading}
+
+          className="flex items-center gap-2 rounded-xl bg-violet-600 px-8 py-3 text-white hover:bg-violet-700"
+
+        >
+
+          <Save size={20}/>
+
+          {loading
+            ? "جاري الحفظ..."
+            : "حفظ المنتج"}
+
+        </button>
+
+
       </form>
+
+
     </div>
+
   );
+
 }
+
 
 export default AddProduct;

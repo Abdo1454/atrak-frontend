@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   ShoppingBag,
   Clock3,
@@ -5,13 +6,65 @@ import {
   Heart,
 } from "lucide-react";
 
+import dashboardService from "../../api/dashboardService";
+
 import StatCard from "../../components/dashboard/StatCard";
 import OrderTable from "../../components/dashboard/OrderTable";
 import ProfileCard from "../../components/dashboard/ProfileCard";
 
 function Dashboard() {
-  const user =
-    JSON.parse(localStorage.getItem("user")) || {};
+  const [loading, setLoading] = useState(true);
+
+  const [stats, setStats] = useState({
+    total_orders: 0,
+    pending_orders: 0,
+    completed_orders: 0,
+    favorites: 0,
+  });
+
+  const [orders, setOrders] = useState([]);
+
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const response = await dashboardService.getDashboard();
+
+        const data = response.data;
+
+        setStats(data.stats);
+
+        setOrders(data.orders);
+
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem(
+            "user",
+            JSON.stringify(data.user)
+          );
+        }
+      } catch (error) {
+        console.error("Dashboard Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <p className="text-lg text-gray-500">
+          جاري تحميل البيانات...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -35,7 +88,7 @@ function Dashboard() {
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             title="إجمالي الطلبات"
-            value={12}
+            value={stats.total_orders}
             icon={ShoppingBag}
             color="bg-violet-100"
             iconColor="text-violet-700"
@@ -43,7 +96,7 @@ function Dashboard() {
 
           <StatCard
             title="طلبات قيد التنفيذ"
-            value={3}
+            value={stats.pending_orders}
             icon={Clock3}
             color="bg-yellow-100"
             iconColor="text-yellow-600"
@@ -51,7 +104,7 @@ function Dashboard() {
 
           <StatCard
             title="طلبات مكتملة"
-            value={9}
+            value={stats.completed_orders}
             icon={CheckCircle2}
             color="bg-green-100"
             iconColor="text-green-600"
@@ -59,7 +112,7 @@ function Dashboard() {
 
           <StatCard
             title="المفضلة"
-            value={6}
+            value={stats.favorites}
             icon={Heart}
             color="bg-pink-100"
             iconColor="text-pink-600"
@@ -70,11 +123,11 @@ function Dashboard() {
       {/* Orders + Profile */}
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <OrderTable />
+          <OrderTable orders={orders} />
         </div>
 
         <div>
-          <ProfileCard />
+          <ProfileCard user={user} />
         </div>
       </div>
     </div>

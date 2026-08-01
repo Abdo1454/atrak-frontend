@@ -23,13 +23,12 @@ import Register from "../pages/Register/Register";
 
 
 // User Dashboard Pages
-import Dashboard from "../pages/dashboard/Dashboard";
-import Profile from "../pages/dashboard/Profile";
-import Orders from "../pages/dashboard/Orders";
-import Favorites from "../pages/dashboard/Favorites";
-import Settings from "../pages/dashboard/Settings";
-import ChangePassword from "../pages/dashboard/ChangePassword";
-
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Dashboard/Profile";
+import Orders from "../pages/Dashboard/Orders";
+import Favorites from "../pages/Dashboard/Favorites";
+import Settings from "../pages/Dashboard/Settings";
+import ChangePassword from "../pages/Dashboard/ChangePassword";
 
 // Admin Pages
 import AdminDashboard from "../pages/Admin/Dashboard";

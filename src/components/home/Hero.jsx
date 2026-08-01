@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Hero1 from "../../assets/Hero.png";
+import Hero1 from "../../assets/hero.png";
 function Hero() {
   return (
     <section className="bg-[#F8F7FC]">
